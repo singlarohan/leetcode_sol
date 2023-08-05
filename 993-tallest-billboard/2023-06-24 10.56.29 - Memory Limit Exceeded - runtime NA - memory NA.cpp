@@ -1,0 +1,35 @@
+class Solution {
+    // unordered_map<int, unordered_map<int, int>> mp;
+    vector<vector<vector<int>>> dp;
+    int sum;
+public:
+    int solve(int i, int sum1, int sum2, vector<int> &rods){
+        int ans{};
+        if(sum1 && sum1 == sum2) {
+            return dp[i][sum1][sum2] = sum1 + solve(i, 0, 0, rods);
+        }
+        if(i >= rods.size() || sum1 > sum || sum2 > sum) return 0;
+        //not choose
+
+        if(dp[i][sum1][sum2] != -1) return dp[i][sum1][sum2];
+        
+        ans = solve(i + 1, sum1, sum2, rods);
+
+        //chose for sum1
+        ans = max(ans, solve(i + 1, sum1 + rods[i], sum2, rods));
+
+        //choose for sum2
+        ans = max(ans, solve(i + 1, sum1, sum2 + rods[i], rods));
+
+        return dp[i][sum1][sum2] = ans;
+
+    }
+
+    int tallestBillboard(vector<int>& rods) {
+        int n = rods.size();
+        sum = accumulate(rods.begin(), rods.end(), 0);
+        sum /= 2;
+        dp = vector<vector<vector<int>>> (n + 1, vector<vector<int>> (sum + 1, vector<int> (sum + 1, -1)));
+        return solve(0, 0, 0, rods);
+    }
+};
