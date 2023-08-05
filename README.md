@@ -1,2 +1,2 @@
 # leetcode_sol
-✏️ LeetCode solutions in C++ 11 and Python3
+✏️ All my LeetCode solutions in C++ 17
